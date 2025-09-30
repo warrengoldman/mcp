@@ -1,0 +1,93 @@
+commands are need to be ran from directory that has weather.py (unless otherwise noted)
+
+--creating a uv environment
+uv init
+uv venv
+--to activate run
+.venv\Scripts\activate
+--add a few librarires
+uv add mcp[cli]
+--create a server
+- in folder create python file (weather)
+- see weather.py as example (file exists in the folder this file is in)
+-- create a client
+- in folder create python file (client)
+- see client.py as example (file exists in the folder this file is in)
+-- to run the client
+uv run client.py
+- everything runs fine (look for Tools Results...), 
+- BUT asyncio outputs a bunch of errors (only on windows) 
+- THIS IS AN ASYNCIO BUG TO BE IGNORED FOR NOW
+
+To test your mcp server you can use the MCP Inspector. To do this run the following:
+mcp dev weather.py 
+---  if you get mcp command not found run, uv init, uv venv, .venv\Scripts\activate., uv add mcp[cli]. In that order, then retry.
+---- Recieved this error (after adding jsonschema to mcp) ModuleNotFoundError: No module named 'jsonschema'. 
+------ ran pip install jsonschema, uv add jsonschema
+-- this will output a url that has a key needed to allow you to connect via your browser
+-- e.g. 
+	--- Open inspector with token pre-filled:
+   	--- http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=8fc66b9a40fbc16ffc5946714632c4dfdacc326624ad0b3a45b2f56722984fc8
+-- once the browser is opened click connect is left side 
+-- Click Tools Menu item, click List Tools
+-- Select get_weather from resulting list
+-- enter location, click Run Tool - see response
+
+
+
+to add to claude desktop run there are two ways
+Option1 - use mcp install to modify Claudes config file 
+mcp install weather.py 
+-- this command will update the Claude config file with something like
+    "Weather": {
+      "command": "C:\\Users\\TEST\\.local\\bin\\uv.EXE",
+      "args": [
+        "run",
+        "--with",
+        "mcp[cli]",
+        "mcp",
+        "run",
+        "C:\\work\\projects\\PycharmProjects\\PythonProject1\\helloworld\\weather.py"
+      ]
+    }
+Option2 - manually edit Claudes config file and 
+-- to find Claudes config file,
+-- in Claude app, click hamburger upper left, File, Settings, Developer, Click Edit Config for existing MCP Server
+-- this will open file explorer to the config file location, edit with notepad, sublime, other
+	-- e.g. location C:\Users\TEST\AppData\Roaming\Claude\claude_desktop_config.json)
+-- add the following under "mcpServers"
+    "weather": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "C:\\work\\projects\\PycharmProjects\\PythonProject1\\helloworld",
+        "run",
+        "weather.py"
+      ]
+    },
+
+FOR BOTH OPTIONS you need to end task Claude (all tasks, killing the black * one will kill all) via task manager and restart for this to take affect.
+
+Once Claude is configured you can confirm it was added and is enabled
+ by clicking the Search and Tools button (looks like below)
+⎛    ⎞
+⎜-°--⎟
+⎜--°-⎟
+⎝    ⎠
+Then click Weather (or weather, depending on the name of the element you added)
+You should see get_weather and it should be enabled
+To test type in a weather related question, like 'Weather in California' and hit enter to search
+You will likely get asked if you would like Claude to use an external integration,
+You can click Allow Once (or always)
+-- TO SEE THE EXACT RESPONSE, Click the get_weather dropdown and you will see the request
+{
+  `location`: `California`
+}
+-- AND response
+The weather is hot and dry in California.
+
+Claude uses your MCP Server (and other) to answer the question, returning something aproximate to what 
+the server returns
+e.g. The current weather in California is hot and dry. California is experiencing typical warm, arid conditions. Keep in mind that California is a large state with diverse climate zones, so conditions can vary significantly between regions - coastal areas tend to be more moderate while inland and desert areas experience hotter temperatures.
+
+Claude LOGS for to debug when something is not correct in your launch are located here: C:\Users\TEST\AppData\Roaming\Claude\logs
