@@ -1,3 +1,6 @@
+Some of the info comes from udemy course: MCP Masterclass: Complete Guide to MCP in Python [2025] by Henry Habib
+A related udemy course that talks about the FastAPI parts (which are used in this code) is: FastAPI - The Complete Course 2025 (Beginner + Advanced)
+
 commands are need to be ran from directory that has weather.py (unless otherwise noted)
 
 --creating a uv environment
