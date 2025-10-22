@@ -3,13 +3,21 @@ A related udemy course that talks about the FastAPI parts (which are used in thi
 
 commands are need to be ran from directory that has weather.py (unless otherwise noted)
 
+this doc assumes that the git repo was copied into:
+C:\\work\\learning\\MCP-Server
+
+In order to hook mcp server to app, YOU MUST:
+a) run the 4 steps in 'creating a uv environemnt'
+b) add to claude desktop - see 'to add to claude desktop run there are two ways', option 2 is probably easiest
+c) stop claude app via task manager (end ALL tasks)
+
 --creating a uv environment
-uv init
-uv venv
+1) uv init
+2) uv venv
 --to activate run
-.venv\Scripts\activate
+3) .venv\Scripts\activate
 --add a few librarires
-uv add mcp[cli]
+4) uv add mcp[cli]
 --create a server
 - in folder create python file (weather)
 - see weather.py as example (file exists in the folder this file is in)
@@ -50,7 +58,7 @@ mcp install weather.py
         "mcp[cli]",
         "mcp",
         "run",
-        "C:\\work\\projects\\PycharmProjects\\PythonProject1\\helloworld\\weather.py"
+        "C:\\work\\learning\\MCP-server\\weather.py"
       ]
     }
 Option2 - manually edit Claudes config file and 
@@ -58,12 +66,12 @@ Option2 - manually edit Claudes config file and
 -- in Claude app, click hamburger upper left, File, Settings, Developer, Click Edit Config for existing MCP Server
 -- this will open file explorer to the config file location, edit with notepad, sublime, other
 	-- e.g. location C:\Users\TEST\AppData\Roaming\Claude\claude_desktop_config.json)
--- add the following under "mcpServers"
+-- add the following under "mcpServers" <=== IMPORTANT MUST BE UNDER THIS JSON ELEMENT
     "weather": {
       "command": "uv",
       "args": [
         "--directory",
-        "C:\\work\\projects\\PycharmProjects\\PythonProject1\\helloworld",
+        "C:\\work\\learning\\MCP-Server",
         "run",
         "weather.py"
       ]
